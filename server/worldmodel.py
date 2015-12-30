@@ -34,3 +34,150 @@ class WorldModel:
         self.white_team_name = white_name
         self.black_team_name = black_name
 
+    def is_isolated (self, point):
+        row = point[0]
+        col = point[1]
+        if row<7:
+            if not self.board[row+1][col].is_empty:
+                return False
+            if col<7:
+                if not self.board[row+1][col+1].is_empty:
+                    return False
+                if not self.board[row][col+1].is_empty:
+                    return False
+            if col>0:
+                if not self.board[row+1][col-1].is_empty:
+                    return False
+                if not self.board[row][col-1].is_empty:
+                    return False
+
+        if row>0:
+            if not self.board[row-1][col].is_empty:
+                return False
+            if col<7:
+                if not self.board[row-1][col+1].is_empty:
+                    return False
+                if not self.board[row][col+1].is_empty:
+                    return False
+            if col>0:
+                if not self.board[row-1][col-1].is_empty:
+                    return False
+                if not self.board[row][col-1].is_empty:
+                    return False
+        return True
+
+    def neighbours (self, point):
+        empty = Part(is_empty=True)
+        neighbours = {(-1, 0):empty, (-1, -1):empty, (-1, 1):empty, (0, -1):empty, (0, 1):empty, (1, -1):empty, (1, 1):empty, (1, 0):empty}
+        row = point[0]
+        col = point[1]
+        if row<7:
+            if not self.board[row+1][col].is_empty:
+                neighbours[(1, 0)] = self.board[row+1][col]
+            if col<7:
+                if not self.board[row+1][col+1].is_empty:
+                    neighbours[(1, 1)] = self.board[row+1][col+1]
+                if not self.board[row][col+1].is_empty:
+                    neighbours[(0, 1)] = self.board[row][col+1]
+            if col>0:
+                if not self.board[row+1][col-1].is_empty:
+                    neighbours[(1, -1)] = self.board[row+1][col-1]
+                if not self.board[row][col-1].is_empty:
+                    neighbours[(0, -1)] = self.board[row][col-1]
+
+        if row>0:
+            if not self.board[row-1][col].is_empty:
+                neighbours[(-1, 0)] = self.board[row-1][col]
+            if col<7:
+                if not self.board[row-1][col+1].is_empty:
+                    neighbours[(-1, 1)] = self.board[row-1][col+1]
+                if not self.board[row][col+1].is_empty:
+                    neighbours[(0, 1)] = self.board[row][col+1]
+            if col>0:
+                if not self.board[row-1][col-1].is_empty:
+                    neighbours[(-1, -1)] = self.board[row-1][col-1]
+                if not self.board[row][col-1].is_empty:
+                    neighbours[(0, -1)] = self.board[row][col-1]
+        return neighbours
+
+    def all_empty_not_isolateds (self):
+        not_isolateds = []
+        for row in range(8):
+            for col in range (8):
+                if not self.is_isolated((row, col)) and self.board[row][col].is_empty:
+                    not_isolateds.append ((row, col))
+        return not_isolateds
+
+
+    def all_moves(self,is_white):
+        moves = []
+        not_isolateds = self.all_empty_not_isolateds()
+        for point in not_isolateds:
+            part = self.board[point[0]][point[1]]
+            neighbours = self.neighbours (point)
+            for neighbour in neighbours.keys():
+                if not neighbours[neighbour].is_empty and neighbours[neighbour].is_white != is_white:
+                    row = point[0]+ neighbour[0]
+                    col = point[1]+ neighbour[1]
+                    ally_found = False
+                    while (row >= 0 and row<=7) and (col>=0 and col<=7):
+                        if self.board[row][col].is_white == is_white:
+                            ally_found = True
+                            break  
+                        row = row + neighbour[0]
+                        col = col + neighbour[1]
+                    if ally_found:
+                        moves.append (Move(point[0], point[1]))
+        return moves
+
+    def check_move(self,is_white):
+        if len(self.all_moves(is_white))==0:
+            return False
+        return True
+
+    def do_move (self, move, is_white):
+        self.board[move.x][move.y].is_empty = False
+        self.board[move.x][move.y].is_white = is_white
+        neighbours = self.neighbours ((move.x, move.y))
+        for neighbour in neighbours.keys():
+            if not neighbours[neighbour].is_empty and neighbours[neighbour].is_white != is_white:
+                row = move.x+ neighbour[0]
+                col = move.y+ neighbour[1]
+                ally_found = False
+                while (row >= 0 and row<=7) and (col>=0 and col<=7):
+                    if self.board[row][col].is_white == is_white:
+                        ally_found = True
+                        break  
+                    row = row + neighbour[0]
+                    col = col + neighbour[1]
+                if ally_found:
+                    row = move.x+ neighbour[0]
+                    col = move.y+ neighbour[1]
+                    while (row >= 0 and row<=7) and (col>=0 and col<=7):
+                        if self.board[row][col].is_white == is_white:
+                            break  
+                        self.board[row][col].is_white = is_white
+                        row = row + neighbour[0]
+                        col = col + neighbour[1]
+    def result (self):
+        wc=0
+        bc=0
+        for row in range(8):
+            for col in range(8):
+                if self.board[row][col].is_white == True:
+                    wc = wc+1
+                if self.board[row][col].is_white == False:
+                    bc = bc+1
+        return (wc, bc)
+                 
+
+
+
+
+
+
+
+
+
+
+
