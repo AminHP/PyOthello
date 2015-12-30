@@ -122,7 +122,9 @@ class WorldModel:
                     col = point[1]+ neighbour[1]
                     ally_found = False
                     while (row >= 0 and row<=7) and (col>=0 and col<=7):
-                        if self.board[row][col].is_white == is_white:
+                        if self.board[row][col].is_empty:
+                            break
+                        elif self.board[row][col].is_white == is_white:
                             ally_found = True
                             break  
                         row = row + neighbour[0]
@@ -153,7 +155,9 @@ class WorldModel:
                 col = move.y+ neighbour[1]
                 ally_found = False
                 while (row >= 0 and row<=7) and (col>=0 and col<=7):
-                    if self.board[row][col].is_white == is_white:
+                    if self.board[row][col].is_empty:
+                        break
+                    elif self.board[row][col].is_white == is_white:
                         ally_found = True
                         break  
                     row = row + neighbour[0]
