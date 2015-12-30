@@ -131,10 +131,13 @@ class WorldModel:
                         moves.append (Move(point[0], point[1]))
         return moves
 
-    def check_move(self,is_white):
-        if len(self.all_moves(is_white))==0:
-            return False
-        return True
+    def check_move(self,move, is_white):
+        found = False
+        for mov in self.all_moves (is_white):
+            if mov.x == move.x and mov.y == move.y:
+                found = True
+                break
+        return found
 
     def do_move (self, move, is_white):
         self.board[move.x][move.y].is_empty = False
@@ -170,4 +173,4 @@ class WorldModel:
                 if self.board[row][col].is_white == False:
                     bc = bc+1
         return (wc, bc)
-                 
+
