@@ -134,6 +134,8 @@ class WorldModel:
         return moves
 
     def check_move(self,move, is_white):
+        if not move:
+            return False
         found = False
         for mov in self.all_moves (is_white):
             if mov.x == move.x and mov.y == move.y:
@@ -142,6 +144,8 @@ class WorldModel:
         return found
 
     def do_move (self, move, is_white):
+        if not move:
+            return
         self.board[move.x][move.y].is_empty = False
         self.board[move.x][move.y].is_white = is_white
         neighbours = self.neighbours ((move.x, move.y))
