@@ -61,6 +61,15 @@ class Manager:
             self.wm.do_move(final_move, is_white)
             self.conn.send2all(Parser.encode(turn, final_move))
 
+            w, b = self.wm.result()
+            if w + b == 64:
+                if w > b:
+                    print ('White wins!')
+                elif w < b:
+                    print ('Black wins!')
+                else:
+                    print ('Draw!')
+
             turn += 1
             print (self.wm)
             sleep(1)

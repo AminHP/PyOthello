@@ -48,6 +48,7 @@ class Manager:
             try:
                 if self.wm.my_color == turn_color:
                     move = ai.decide(copy.deepcopy(self.wm))
+                    move.x, move.y = move.y, move.x
                     self.conn.send(Parser.encode(turn, move))
             except:
                 pass
@@ -57,6 +58,16 @@ class Manager:
                 self.wm.do_move(m, is_white)
 
             self.gui.show(self.wm)
+
+            w, b = self.wm.result()
+            if w + b == 64:
+                if w > b:
+                    print ('White wins!')
+                elif w < b:
+                    print ('Black wins!')
+                else:
+                    print ('Draw!')
+
             turn += 1
             #print (self.wm)
             sleep(1)
