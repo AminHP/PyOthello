@@ -4,4 +4,7 @@ from random import choice
 
 def decide(wm):
     is_white = bool(wm.my_color)
-    return choice(wm.all_moves(is_white))
+    moves = wm.all_moves(is_white)
+    if len(moves) == 0:
+        return None
+    return choice(moves)
