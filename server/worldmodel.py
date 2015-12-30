@@ -34,6 +34,7 @@ class WorldModel:
         self.white_team_name = white_name
         self.black_team_name = black_name
 
+
     def is_isolated (self, point):
         row = point[0]
         col = point[1]
@@ -170,14 +171,3 @@ class WorldModel:
                     bc = bc+1
         return (wc, bc)
                  
-
-
-
-
-
-
-
-
-
-
-
