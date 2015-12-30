@@ -56,7 +56,9 @@ class Manager:
 
             if not moved:
                 print ('random move')
-                final_move = choice(self.wm.all_moves(is_white))
+                moves = self.wm.all_moves(is_white)
+                if len(moves):
+                    final_move = choice(moves)
 
             self.wm.do_move(final_move, is_white)
             self.conn.send2all(Parser.encode(turn, final_move))
@@ -69,6 +71,7 @@ class Manager:
                     print ('Black wins!')
                 else:
                     print ('Draw!')
+                break
 
             turn += 1
             print (self.wm)

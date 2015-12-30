@@ -48,7 +48,6 @@ class Manager:
             try:
                 if self.wm.my_color == turn_color:
                     move = ai.decide(copy.deepcopy(self.wm))
-                    move.x, move.y = move.y, move.x
                     self.conn.send(Parser.encode(turn, move))
             except:
                 pass
@@ -67,6 +66,7 @@ class Manager:
                     print ('Black wins!')
                 else:
                     print ('Draw!')
+                break
 
             turn += 1
             #print (self.wm)
