@@ -66,8 +66,8 @@ class GUI:
                     color = (230, 230, 230) if part.is_white else (30, 30, 30)
                     self.draw_piece(color, row, col)
 
-        self.display_team_names(wm.black_team_name, 10)
-        self.display_team_names(wm.white_team_name, -10)
+        self.display_team_names('black: ' + wm.black_team_name, 10)
+        self.display_team_names('white: ' + wm.white_team_name, -10)
 
         #pygame.display.flip()
         pygame.display.update()
