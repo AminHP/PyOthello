@@ -14,7 +14,7 @@ class WorldModel:
         for row in self.board:
             for part in row:
                 if not part.is_empty:
-                    res += ('1' if part.is_white else '-1') + '\t'
+                    res += ('+1' if part.is_white else '-1') + '\t'
                 else:
                     res +=  '0\t'
             res += '\n'
@@ -70,38 +70,38 @@ class WorldModel:
         return True
 
     def neighbours (self, point):
-        empty = Part(is_empty=True)
-        neighbours = {(-1, 0):empty, (-1, -1):empty, (-1, 1):empty, (0, -1):empty, (0, 1):empty, (1, -1):empty, (1, 1):empty, (1, 0):empty}
+        neighbours = {(-1, 0):Part(is_empty=True), (-1, -1):Part(is_empty=True), (-1, 1):Part(is_empty=True), (0, -1):Part(is_empty=True), (0, 1):Part(is_empty=True), (1, -1):Part(is_empty=True), (1, 1):Part(is_empty=True), (1, 0):Part(is_empty=True)}
         row = point[0]
         col = point[1]
         if row<7:
             if not self.board[row+1][col].is_empty:
-                neighbours[(1, 0)] = self.board[row+1][col]
+                neighbours[(1, 0)] = Part(self.board[row+1][col].is_empty, self.board[row+1][col].is_white)
             if col<7:
                 if not self.board[row+1][col+1].is_empty:
-                    neighbours[(1, 1)] = self.board[row+1][col+1]
+                    neighbours[(1, 1)] = Part(self.board[row+1][col+1].is_empty, self.board[row+1][col+1].is_white)
                 if not self.board[row][col+1].is_empty:
-                    neighbours[(0, 1)] = self.board[row][col+1]
+                    neighbours[(0, 1)] = Part(self.board[row][col+1].is_empty, self.board[row][col+1].is_white)
             if col>0:
                 if not self.board[row+1][col-1].is_empty:
-                    neighbours[(1, -1)] = self.board[row+1][col-1]
+                    neighbours[(1, -1)] = Part(self.board[row+1][col-1].is_empty, self.board[row+1][col-1].is_white)
                 if not self.board[row][col-1].is_empty:
-                    neighbours[(0, -1)] = self.board[row][col-1]
+                    neighbours[(0, -1)] = Part(self.board[row][col-1].is_empty, self.board[row][col-1].is_white)
 
         if row>0:
             if not self.board[row-1][col].is_empty:
-                neighbours[(-1, 0)] = self.board[row-1][col]
+                neighbours[(-1, 0)] = Part(self.board[row-1][col].is_empty, self.board[row-1][col].is_white)
             if col<7:
                 if not self.board[row-1][col+1].is_empty:
-                    neighbours[(-1, 1)] = self.board[row-1][col+1]
+                    neighbours[(-1, 1)] = Part(self.board[row-1][col+1].is_empty, self.board[row-1][col+1].is_white)
                 if not self.board[row][col+1].is_empty:
-                    neighbours[(0, 1)] = self.board[row][col+1]
+                    neighbours[(0, 1)] = Part(self.board[row][col+1].is_empty, self.board[row][col+1].is_white)
             if col>0:
                 if not self.board[row-1][col-1].is_empty:
-                    neighbours[(-1, -1)] = self.board[row-1][col-1]
+                    neighbours[(-1, -1)] = Part(self.board[row-1][col-1].is_empty, self.board[row-1][col-1].is_white)
                 if not self.board[row][col-1].is_empty:
-                    neighbours[(0, -1)] = self.board[row][col-1]
+                    neighbours[(0, -1)] = Part(self.board[row][col-1].is_empty, self.board[row][col-1].is_white)
         return neighbours
+
 
     def all_empty_not_isolateds (self):
         not_isolateds = []

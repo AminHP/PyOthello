@@ -13,7 +13,7 @@ class WorldModel:
         for row in self.board:
             for part in row:
                 if not part.is_empty:
-                    res += ('1' if part.is_white else '-1') + '\t'
+                    res += ('+1' if part.is_white else '-1') + '\t'
                 else:
                     res +=  '0\t'
             res += '\n'
