@@ -51,8 +51,8 @@ class Manager:
                         if self.wm.check_move(move, is_white):
                             moved = True
                             final_move = move
-            except:
-                pass
+            except Exception as err:
+                print (err)
 
             if not moved:
                 print ('random move')
@@ -62,6 +62,8 @@ class Manager:
 
             self.wm.do_move(final_move, is_white)
             self.conn.send2all(Parser.encode(turn, final_move))
+
+            print (self.wm)
 
             w, b = self.wm.result()
             if w + b == 64:
@@ -74,10 +76,9 @@ class Manager:
                 break
 
             turn += 1
-            print (self.wm)
             sleep(1)
 
 
-        sleep(5)
+        sleep(6)
         self.conn.disconnect()
 
