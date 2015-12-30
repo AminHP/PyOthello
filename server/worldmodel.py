@@ -15,7 +15,7 @@ class WorldModel:
                 if not part.is_empty:
                     res += ('+1' if part.is_white else '-1') + '\t'
                 else:
-                    res +=  '0\t'
+                    res +=  '00\t'
             res += '\n'
         return res
 
